@@ -26,7 +26,6 @@ abstract class DbModel extends Model {
                 $reformatData[$this->class2DbName($key)] = $value;
             }
         }
-        print_r($reformatData);die();
         $query->insert();
 
         $tableName = static::tableName();
