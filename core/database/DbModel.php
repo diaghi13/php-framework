@@ -18,14 +18,8 @@ abstract class DbModel extends Model {
 
     public function insert(): DbModel {
         $query = new Builder();
-        $data = get_object_vars($this);
-        $columns = $this->getColumns(static::tableName());
-        $reformatData = [];
-        foreach ($data as $key => $value) {
-            if (in_array($this->class2DbName($key), $columns)) {
-                $reformatData[$this->class2DbName($key)] = $value;
-            }
-        }
+        $data = $this->dataParsing();
+        print_r($data);
         $query->insert();
 
         $tableName = static::tableName();
@@ -153,5 +147,17 @@ abstract class DbModel extends Model {
         $parts = preg_split('/(?=[A-Z])/', $property);
         $parts = array_map('strtolower', $parts);
         return implode("_", $parts);
+    }
+
+    private function dataParsing(): array {
+        $data = get_object_vars($this);
+        $columns = $this->getColumns(static::tableName());
+        $reformatData = [];
+        foreach ($data as $key => $value) {
+            if (in_array($this->class2DbName($key), $columns)) {
+                $reformatData[$this->class2DbName($key)] = $value;
+            }
+        }
+        return $reformatData;
     }
 }
