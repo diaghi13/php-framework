@@ -18,6 +18,7 @@ abstract class DbModel extends Model {
 
     public function insert(): DbModel {
         $query = new Builder();
+        // for github
         $data = $this->dataParsing();
         print_r($data);
         $query->insert();
