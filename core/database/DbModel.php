@@ -18,24 +18,8 @@ abstract class DbModel extends Model {
 
     public function insert(): DbModel {
         $query = new Builder();
-        // for github
         $data = $this->dataParsing();
-        print_r($data);
-        $query->insert();
-
-        $tableName = static::tableName();
-        $attributes = $this->paramsFormat($tableName);
-        $params = array_map(fn($attribute) => ":$attribute", $attributes);
-
-        $sth = self::prepare("INSERT INTO $tableName (" . implode(', ', $attributes) . ") 
-                                    VALUES (" . implode(', ', $params) . ")");
-
-        foreach ($attributes as $key => $value) {
-            $sth->bindValue(":$value", $this->{$key} ?? null);
-        }
-
-        $sth->execute();
-        return self::findOne(array("id" => Application::$app->database->pdo->lastInsertId()));
+        $query->table(static::tableName())->insert($data);
     }
 
     public function update(array $data) {
