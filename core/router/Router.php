@@ -6,6 +6,7 @@ namespace application\core\router;
 
 use application\core\Application;
 use application\core\exceptions\RouteNotFoundException;
+use application\core\http\Controller;
 use application\core\http\Request;
 use application\core\http\Response;
 use JetBrains\PhpStorm\Pure;
@@ -48,19 +49,21 @@ class Router {
             $this->response->setStatusCode(404);
             throw new RouteNotFoundException();
         }
-        /*print_r($this->matchRoute);
-        die();*/
 
         if (is_string($action)) {
             return Application::$app->view->renderView($action);
-            //return $this->renderView($action);
         }
 
         if (is_array($action)) {
+            /** @var $controller Controller */
             $controller = new $action[0];
             $controller->action = $action[1];
 
             Application::$app->controller = $controller;
+            $middlewares = $controller->getMiddlewares();
+            foreach ($middlewares as $middleware) {
+                $middleware->handle($this->request);
+            }
             if (count($action) === 1) {
                 $callback = [$controller];
             } else {

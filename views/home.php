@@ -1,4 +1,4 @@
-<?php /** @var $user */?>
+<?php /** @var $user \application\app\models\User */?>
 
 <?php if (\application\core\Application::$app->session->getFlash('login')): ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -7,4 +7,8 @@
 </div>
 <?php endif;?>
 
-<h1>Hello, <?php echo $user?>!</h1>
+<?php if (\application\core\Application::$app->isGuest()):?>
+    <h1>Welcome to the PHP Framework</h1>
+<?php else:?>
+    <h1>Hello, <?php echo $user->fullName()?>!</h1>
+<?php endif;?>

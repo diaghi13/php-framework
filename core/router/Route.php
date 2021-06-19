@@ -41,4 +41,8 @@ class Route {
             'action' => $action
         ];
     }
+
+    public function middleware(string $middleware) {
+
+    }
 }

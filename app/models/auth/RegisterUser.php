@@ -5,6 +5,7 @@ namespace application\app\models\auth;
 
 
 use application\app\models\User;
+use application\core\database\DbModel;
 
 class RegisterUser extends User {
     public string $passwordConfirmation;
@@ -13,7 +14,7 @@ class RegisterUser extends User {
         return [
             'firstName' => [self::RULE_REQUIRED],
             'lastName' => [self::RULE_REQUIRED],
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
+            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [self::RULE_UNIQUE, 'class' => $this, 'attribute' => 'email_address']],
             'password' => [self::RULE_REQUIRED, [self::RULE_MIN_LENGTH, 'min'=> 8]],
             'passwordConfirmation' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
         ];
@@ -24,5 +25,9 @@ class RegisterUser extends User {
             parent::labels(),
             ['passwordConfirmation' => 'Password confirmation']
         );
+    }
+
+    public function insert(): DbModel {
+        parent::insert();
     }
 }

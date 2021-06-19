@@ -26,6 +26,7 @@
                 </li>
             </ul>
             <div class="d-flex">
+                <?php if(\application\core\Application::$app->isGuest()):?>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/login">Login</a>
@@ -34,6 +35,19 @@
                         <a class="nav-link active" aria-current="page" href="/register">Register</a>
                     </li>
                 </ul>
+                <?php else:?>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <?php $form = \application\core\view\component\form\Form::begin('/logout', 'post')?>
+                            <?php echo input_csrf_token()?>
+                            <button type="submit" class="nav-link active" aria-current="page" href="/logout">Logout</button>
+                            <?php $form->end()?>
+                        </li>
+                    </ul>
+                <?php endif;?>
             </div>
         </div>
     </div>

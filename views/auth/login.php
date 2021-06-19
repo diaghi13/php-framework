@@ -4,7 +4,7 @@
 
 <?php $form = \application\core\view\component\form\Form::begin("", "post")?>
 <?php echo input_csrf_token(); ?>
-<?php echo $form->inputField($model, 'email')->isEmail()?>
-<?php echo $form->inputField($model, 'password')->isPassword()?>
+<?php echo $form->inputField($model, 'emailAddress')->isEmail()?>
+<?php echo $form->inputField($model, 'passwordHash')->isPassword()?>
 <button type="submit" class="btn btn-primary">Login</button>
 <?php $form->end()?>

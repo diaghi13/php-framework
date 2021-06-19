@@ -8,6 +8,7 @@ vendor
 .env
 _backup
 presentation.hmtl
+.idea
 
 # Icon must end with two \r
 Icon

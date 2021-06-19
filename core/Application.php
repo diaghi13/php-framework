@@ -4,7 +4,9 @@
 namespace application\core;
 
 
+use application\app\models\User;
 use application\core\database\Database;
+use application\core\database\DbModel;
 use application\core\http\Controller;
 use application\core\http\Request;
 use application\core\http\Response;
@@ -25,6 +27,7 @@ class Application {
 
     public ?Controller $controller = null;
     public Session $session;
+    public ?DbModel $user;
 
     public Dotenv $dotEnv;
     public Database $database;
@@ -64,6 +67,30 @@ class Application {
                 'password' => env('DB_PASSWORD')
             ]);
         }
+
+        $this->user = null;
+        $userId = self::$app->session->get('user');
+        if ($userId) {
+            $key = User::primaryKey();
+            $this->user = User::findOne([$key => $userId]);
+        }
+    }
+
+    public function isGuest(): bool {
+        return !self::$app->user;
+    }
+
+    public function login(DbModel $user): bool {
+        $this->user = $user;
+        $primaryKey = $user->primaryKey();
+        $value = $user->{$primaryKey};
+        self::$app->session->set('user', $value);
+
+        return true;
+    }
+
+    public function logout() {
+        self::$app->session->remove('user');
     }
 
     public function run() {

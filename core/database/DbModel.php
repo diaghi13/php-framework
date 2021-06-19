@@ -12,11 +12,11 @@ abstract class DbModel extends Model {
 
     abstract public static function tableName(): string;
 
-    public function primaryKey(): string {
+    public static function primaryKey(): string {
         return 'id';
     }
 
-    public function insert(): DbModel {
+    protected function insert(): DbModel {
         $query = new Builder();
         $data = $this->dataParsing();
         $query->table(static::tableName())->insert($data);
@@ -40,7 +40,7 @@ abstract class DbModel extends Model {
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function findOne(array $where = []) {
+    public static function findOne(array $where = []): DbModel {
         $query = new Builder();
         $query->table(static::tableName())->model(static::class);
         foreach ($where as $key => $value) {

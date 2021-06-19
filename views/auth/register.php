@@ -14,7 +14,7 @@ use application\app\models\auth\LoginUser; ?>
             <?php echo $form->inputField($model, 'lastName')?>
         </div>
     </div>
-    <?php echo $form->inputField($model, 'email')->isEmail()?>
+    <?php echo $form->inputField($model, 'emailAddress')->isEmail()?>
     <?php echo $form->inputField($model, 'password')->isPassword()?>
     <?php echo $form->inputField($model, 'passwordConfirmation')->isPassword()?>
     <button type="submit" class="btn btn-primary">Submit</button>

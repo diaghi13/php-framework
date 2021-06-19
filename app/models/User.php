@@ -15,16 +15,16 @@ class User extends DbModel {
     public ?string $username;
     public ?string $firstName;
     public ?string $lastName;
-    public ?string $email;
-    public ?string $password;
+    public ?string $emailAddress;
+    public ?string $passwordHash;
     public ?string $phoneNumber;
     public ?string $securityStamp;
     public ?string $status;
 
     public function rules(): array {
         return [
-            'email' => [self::RULE_EMAIL],
-            'password' => [self::RULE_PASSWORD]
+            'emailAddress' => [self::RULE_EMAIL],
+            'passwordHash' => [self::RULE_PASSWORD]
         ];
     }
 
@@ -33,8 +33,8 @@ class User extends DbModel {
             'username' => 'Username',
             'firstName' => 'First name',
             'lastName' => 'Last name',
-            'email' => 'Email',
-            'password' => 'Password',
+            'emailAddress' => 'Email',
+            'passwordHash' => 'Password',
             'phoneNumber' => 'Phone number',
             'securityStamp' => 'Security Code',
             'status' => 'Status',
@@ -47,5 +47,9 @@ class User extends DbModel {
 
     public static function tableName(): string {
         return 'user';
+    }
+
+    public function fullName(): string {
+        return $this->firstName . ' ' . $this->lastName;
     }
 }

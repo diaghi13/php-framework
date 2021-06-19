@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app\core\http\middleware;
+namespace application\core\http\middleware;
 
 
-use app\core\http\Request;
+use application\core\http\Request;
 use Closure;
 
 interface IMiddleware {

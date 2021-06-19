@@ -1,13 +1,18 @@
 <?php
 
 
-namespace app\core\http\middleware;
+namespace application\core\http\middleware;
 
 
-use app\core\http\Request;
+use application\core\http\Request;
 use Closure;
 
 abstract class Middleware implements IMiddleware {
+    protected array $actions = [];
+
+    public function __construct(array $actions = []) {
+        $this->actions = $actions;
+    }
 
     /**
      * @param Request $request
